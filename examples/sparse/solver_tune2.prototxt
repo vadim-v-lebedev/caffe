@@ -1,0 +1,14 @@
+net: "net.prototxt"
+
+test_iter: 100
+test_interval: 500
+base_lr: 0.001
+momentum: 0.9
+regularization_type: "fix_zeros"
+weight_decay: 0.0005
+lr_policy: "fixed"
+display: 100
+max_iter: 1000
+snapshot_prefix: "snapshots/net_tuned2"
+
+solver_mode: GPU

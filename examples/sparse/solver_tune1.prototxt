@@ -1,0 +1,13 @@
+net: "net_sparse.prototxt"
+
+test_iter: 100
+test_interval: 500
+base_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0005
+lr_policy: "fixed"
+display: 100
+max_iter: 1000
+snapshot_prefix: "snapshots/net_tuned1"
+
+solver_mode: GPU
