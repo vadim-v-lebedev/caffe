@@ -4,13 +4,15 @@
 ##Currently implemented features
 
 **Sparse convolution**
+
 Sparse convolution on cpu, forward propagation only.
 - [sparse_conv_layer.cpp](https://github.com/vadim-v-lebedev/caffe/blob/master/src/caffe/layers/sparse_conv_layer.cpp)
 - [sparse_conv_layer.hpp](https://github.com/vadim-v-lebedev/caffe/blob/master/include/caffe/layers/sparse_conv_layer.hpp)
 
 **Fix zeros regularizer**
+
 Without backpropagation, straightforward training of sparse convolution layer is not possible. Hovewer regularization_type: "fix_zeros", provides an alternative way to train sparse weigths with regular implementation of the convolution.
 
 **Notebook example**
-3. [Notebook example](https://github.com/vadim-v-lebedev/caffe/blob/master/examples/sparse/sparse_convolution_demonstration.ipynb)
 
+Training LeNet, setting predefined sparsity structure and finetuning in single [ipython notebook](https://github.com/vadim-v-lebedev/caffe/blob/master/examples/sparse/sparse_convolution_demonstration.ipynb)
