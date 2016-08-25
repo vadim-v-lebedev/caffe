@@ -166,6 +166,21 @@ void SGDSolver<Dtype>::Regularize(int param_id) {
             local_decay,
             temp_[param_id]->cpu_data(),
             net_params[param_id]->mutable_cpu_diff());
+      } else if (regularization_type == "fix_zeros") {
+        caffe_abs(net_params[param_id]->count(),
+            net_params[param_id]->cpu_data(),
+            temp_[param_id]->mutable_cpu_data());
+        caffe_cpu_sign(net_params[param_id]->count(),
+            temp_[param_id]->cpu_data(),
+            temp_[param_id]->mutable_cpu_data());
+        caffe_axpy(net_params[param_id]->count(),
+            local_decay,
+            net_params[param_id]->gpu_data(),
+            net_params[param_id]->mutable_cpu_diff());
+        caffe_mul(net_params[param_id]->count(),
+            temp_[param_id]->cpu_data(),
+            net_params[param_id]->cpu_diff(),
+            net_params[param_id]->mutable_cpu_diff());
       } else {
         LOG(FATAL) << "Unknown regularization type: " << regularization_type;
       }
@@ -188,6 +203,21 @@ void SGDSolver<Dtype>::Regularize(int param_id) {
         caffe_gpu_axpy(net_params[param_id]->count(),
             local_decay,
             temp_[param_id]->gpu_data(),
+            net_params[param_id]->mutable_gpu_diff());
+      } else if (regularization_type == "fix_zeros") {
+        caffe_gpu_abs(net_params[param_id]->count(),
+            net_params[param_id]->gpu_data(),
+            temp_[param_id]->mutable_gpu_data());
+        caffe_gpu_sign(net_params[param_id]->count(),
+            temp_[param_id]->gpu_data(),//net_params[param_id]->gpu_data(),
+            temp_[param_id]->mutable_gpu_data());
+        caffe_gpu_axpy(net_params[param_id]->count(),
+            local_decay,
+            net_params[param_id]->gpu_data(),
+            net_params[param_id]->mutable_gpu_diff());
+        caffe_gpu_mul(net_params[param_id]->count(),
+            temp_[param_id]->gpu_data(),
+            net_params[param_id]->gpu_diff(),
             net_params[param_id]->mutable_gpu_diff());
       } else {
         LOG(FATAL) << "Unknown regularization type: " << regularization_type;
