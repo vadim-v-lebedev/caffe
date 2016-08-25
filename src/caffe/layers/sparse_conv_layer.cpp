@@ -463,9 +463,9 @@ void SparseConvolutionLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bott
 template <typename Dtype>
 void SparseConvolutionLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top,
       const vector<bool>& propagate_down, const vector<Blob<Dtype>*>& bottom) {
-  const Dtype* weight = this->blobs_[0]->cpu_data();
+  const Dtype* weight = this->compressed_.cpu_data();//this->blobs_[0]->cpu_data();
   const int* pattern = this->pattern_.cpu_data();
-  Dtype* weight_diff = this->blobs_[0]->mutable_cpu_diff();
+  Dtype* weight_diff = this->compressed_.mutable_cpu_diff();//this->blobs_[0]->mutable_cpu_diff();
   for (int i = 0; i < top.size(); ++i) {
     const Dtype* top_diff = top[i]->cpu_diff();
     const Dtype* bottom_data = bottom[i]->cpu_data();
@@ -493,10 +493,6 @@ void SparseConvolutionLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype>*>& top
     }
   }
 }
-
-//#ifdef CPU_ONLY
-//STUB_GPU(SparseConvolutionLayer);
-//#endif
 
 INSTANTIATE_CLASS(SparseConvolutionLayer);
 REGISTER_LAYER_CLASS(SparseConvolution);
